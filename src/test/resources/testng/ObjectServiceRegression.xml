@@ -9,7 +9,11 @@
 
     <test name="Test Set">
         <classes>
-            <class name="com.practical.assignment.tests.ObjectServiceTest" />
+            <class name="com.practical.assignment.tests.ObjectServiceContractTest" />
+            <class name="com.practical.assignment.tests.ObjectServiceCreateTest" />
+            <class name="com.practical.assignment.tests.ObjectServiceRetrieveTest" />
+            <class name="com.practical.assignment.tests.ObjectServiceUpdateTest" />
+            <class name="com.practical.assignment.tests.ObjectServiceDeleteTest" />
         </classes>
     </test>
 </suite>

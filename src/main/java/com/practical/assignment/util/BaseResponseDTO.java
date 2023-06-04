@@ -12,13 +12,12 @@ public class BaseResponseDTO {
     private int statusCode;
     private String contentType;
     private String body;
-    private boolean isProperlyDeserialized;
 
     public void setResponse(Response response) {
         this.response = response;
         this.statusCode = response.statusCode();
         this.contentType = response.contentType();
-        this.body = response.toString();
+        this.body = response.asString();
     }
 
 }

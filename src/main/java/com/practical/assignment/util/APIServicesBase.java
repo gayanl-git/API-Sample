@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.practical.assignment.constants.RelativeURLs;
-import com.practical.assignment.requestDTO.ObjectRequestDTO;
 import io.restassured.http.Headers;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
+
+import static io.restassured.RestAssured.given;
 
 public abstract class APIServicesBase extends RestUtil {
 
@@ -22,8 +23,8 @@ public abstract class APIServicesBase extends RestUtil {
     public void setRequest(String baseURI, String basePath, String requestBody, Headers headers) throws JsonProcessingException {
 
         setRequest(baseURI, basePath);
-        logger.info("Request Body - " + requestBody);
-        logger.info("Request Headers - " + objectMapper.writeValueAsString(headers));
+        logger.info("Request Body - \n" + requestBody);
+        logger.info("Request Headers - \n" + objectMapper.writeValueAsString(headers));
 
     }
 
@@ -36,21 +37,35 @@ public abstract class APIServicesBase extends RestUtil {
 
     public BaseResponseDTO convertResponseToType(Response response, Class<?> classType) {
 
+        logger.info("Response Body - \n" + response.asPrettyString());
+        logger.info("Response Status - " + response.statusCode());
+
         try{
             baseResponseDTO = (BaseResponseDTO) objectMapper.readValue(response.asString(), classType);
 
         } catch (JsonProcessingException e){
-            baseResponseDTO.setProperlyDeserialized(false);
+            logger.info("Given Response Type Not Matched To Actual Response Got - " + classType);
             e.printStackTrace();
         } catch (Exception e){
             throw e;
         }
 
-        logger.info("Response Body - " + response.asString());
-        logger.info("Response Status - " + response.statusCode());
         baseResponseDTO.setResponse(response);
-        baseResponseDTO.setProperlyDeserialized(true);
         return baseResponseDTO;
+    }
+
+    public Response makeRequest(String body, Headers headers, Method method) {
+
+        return given()
+                    .headers(headers)
+                    .body(body)
+                .when()
+                    .request(method);
+    }
+
+    public Response makeRequest(Method method) {
+
+        return given().request(method);
     }
 
 }

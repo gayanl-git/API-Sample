@@ -1,10 +1,10 @@
 package com.practical.assignment.responseDTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.practical.assignment.util.BaseResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.Date;
 import java.util.Map;
 
 @Getter
@@ -18,10 +18,8 @@ public class ObjectResponseDTO extends BaseResponseDTO {
 
     private Map<String, String> data;
 
-    @JsonIgnore
-    private String createdAt;
+    private Date createdAt;
 
-    @JsonIgnore
-    private String updatedAt;
+    private Date updatedAt;
 
 }
